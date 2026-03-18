@@ -85,6 +85,23 @@ El agente es entrenado durante múltiples episodios, comenzando con un comportam
 - Comparar diferentes estrategias de exploración
 
 ---
+# Desarrollo
+
+## Flappy Bird AI
+Este repositorio contiene una IA de aprendizaje reforzado para jugar al Flappy Bird, usando **Pygame** para el juego y **Stable-Baselines3** para el agente RL.
+
+## Estructura
+- `game/main.py`: inicio del juego (Pygame).  
+- `ai/train.py`: script de entrenamiento del agente.  
+- `ai/agent.py`: definición del agente RL.  
+- `requirements.txt`: dependencias.  
+- `.github/workflows/ci.yml`: pipeline CI.
+
+## Uso
+1. Crear y activar entorno virtual (Python 3.10+):  
+   ```bash
+   python3.10 -m venv venv && source venv/bin/activate
+
 
 ## Autor
 Proyecto desarrollado con fines académicos como parte de un curso universitario de Inteligencia Artificial.

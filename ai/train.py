@@ -1,5 +1,5 @@
-from flappy_env import FlappyBirdEnv
-from agent import FlappyAgent
+from ai.flappy_env import FlappyBirdEnv
+from ai.agent import FlappyAgent
 
 
 def main():
@@ -7,7 +7,7 @@ def main():
     agent = FlappyAgent(env)
 
     print("Starting training...")
-    agent.train(total_timesteps=100_000, save_path="ai/checkpoints/ppo_flappy")
+    agent.train(total_timesteps=900_000, save_path="ai/checkpoints/ppo_flappy")
 
     print("\nEvaluating...")
     avg_reward = agent.evaluate(episodes=5)

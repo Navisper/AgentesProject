@@ -1,11 +1,18 @@
-import gymnasium as gym
+from flappy_env import FlappyBirdEnv
 from agent import FlappyAgent
-from stable_baselines3 import PPO
 
-# Crear entorno (por ejemplo, un entorno personalizado de Flappy Bird)
-env = gym.make("FlappyBird-v0")  # nombre hipotético de entorno
-agent = FlappyAgent(env)
 
-# Entrenar agente
-agent.train(total_timesteps=100_000)
-agent.save("ai/checkpoints/ppo_flappy")
+def main():
+    env = FlappyBirdEnv(render_mode=None)
+    agent = FlappyAgent(env)
+
+    print("Starting training...")
+    agent.train(total_timesteps=100_000, save_path="ai/checkpoints/ppo_flappy")
+
+    print("\nEvaluating...")
+    avg_reward = agent.evaluate(episodes=5)
+    print(f"Average reward: {avg_reward:.2f}")
+
+
+if __name__ == "__main__":
+    main()

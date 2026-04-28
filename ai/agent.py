@@ -1,26 +1,43 @@
+from stable_baselines3 import PPO
+
+
 class FlappyAgent:
     def __init__(self, env):
-        self.env = env              # entorno Gymnasium (Flappy Bird)
-        self.model = None           # aquí se cargará el modelo RL (p.ej. PPO)
+        self.env = env
+        self.model = None
 
-    def train(self, total_timesteps):
-        """Entrena el modelo usando el método learn() de SB3."""
-        self.model = PPO("MlpPolicy", self.env, verbose=1, tensorboard_log="./logs/")
-        self.model.learn(total_timesteps=total_timesteps)
+    def train(self, total_timesteps, save_path="ai/checkpoints/ppo_flappy"):
+        self.model = PPO(
+            "MlpPolicy",
+            self.env,
+            verbose=1,
+            tensorboard_log="ai/logs/",
+            learning_rate=3e-4,
+            n_steps=2048,
+            batch_size=64,
+            n_epochs=10,
+            gamma=0.99,
+        )
+        self.model.learn(total_timesteps=total_timesteps, progress_bar=True)
+        self.save(save_path)
 
     def evaluate(self, episodes=10):
-        """Evalúa el modelo en varios episodios, devuelve promedio de puntajes."""
+        if not self.model:
+            raise ValueError("Model not trained. Call train() first.")
         total_reward = 0
         for _ in range(episodes):
             obs, _ = self.env.reset()
             done = False
             while not done:
-                action, _states = self.model.predict(obs)
-                obs, reward, done, _, info = self.env.step(action)
+                action, _ = self.model.predict(obs, deterministic=True)
+                obs, reward, done, _, _ = self.env.step(action)
                 total_reward += reward
-        return total_reward/episodes
+        return total_reward / episodes
 
     def save(self, path):
-        """Guarda el modelo entrenado a disco."""
         if self.model:
             self.model.save(path)
+
+    def load(self, path):
+        if self.model:
+            self.model = PPO.load(path, env=self.env)

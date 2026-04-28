@@ -1,4 +1,4 @@
-pygame>=2.1            # Motor del juego
+pygame            # Motor del juego
 gymnasium>=0.29        # Entornos RL (reemplazo de OpenAI Gym)
 stable-baselines3>=2.0 # Framework RL con implementaciones en PyTorch【21†L1-L4】
 numpy>=1.23            # Manejo de matrices/arrays

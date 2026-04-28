@@ -9,7 +9,6 @@ SOUNDS_DIR = Path(__file__).parent.parent / "sounds"
 class BG(pygame.sprite.Sprite):
 	def __init__(self,groups,scale_factor):
 		super().__init__(groups)
-		pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 		bg_image = pygame.image.load(str(SPRITES_DIR / "environment" / "background.png")).convert()
 
 		full_height = bg_image.get_height() * scale_factor
@@ -53,7 +52,7 @@ class Ground(pygame.sprite.Sprite):
 		self.rect.x = round(self.pos.x)
 
 class Plane(pygame.sprite.Sprite):
-	def __init__(self,groups,scale_factor):
+	def __init__(self,groups,scale_factor,gravity=600,jump_strength=-400):
 		super().__init__(groups)
 
 		# image 
@@ -66,7 +65,8 @@ class Plane(pygame.sprite.Sprite):
 		self.pos = pygame.math.Vector2(self.rect.topleft)
 
 		# movement
-		self.gravity = 600
+		self.gravity = gravity
+		self._jump_strength = jump_strength
 		self.direction = 0
 
 		# mask
@@ -90,7 +90,7 @@ class Plane(pygame.sprite.Sprite):
 
 	def jump(self):
 		self.jump_sound.play()
-		self.direction = -400
+		self.direction = self._jump_strength
 
 	def animate(self,dt):
 		self.frame_index += 10 * dt
@@ -109,6 +109,8 @@ class Plane(pygame.sprite.Sprite):
 		self.rotate()
 
 class Obstacle(pygame.sprite.Sprite):
+	speed = 400
+
 	def __init__(self,groups,scale_factor):
 		super().__init__(groups)
 		self.sprite_type = 'obstacle'
@@ -133,7 +135,7 @@ class Obstacle(pygame.sprite.Sprite):
 		self.mask = pygame.mask.from_surface(self.image)
 
 	def update(self,dt):
-		self.pos.x -= 400 * dt
+		self.pos.x -= self.speed * dt
 		self.rect.x = round(self.pos.x)
 		if self.rect.right <= -100:
 			self.kill()

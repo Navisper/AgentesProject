@@ -13,10 +13,11 @@ class FlappyAgent:
             verbose=1,
             tensorboard_log="ai/logs/",
             learning_rate=3e-4,
-            n_steps=2048,
-            batch_size=64,
+            n_steps=1024,
+            batch_size=128,
             n_epochs=10,
-            gamma=0.99,
+            gamma=0.995,
+            ent_coef=0.01,
         )
         self.model.learn(total_timesteps=total_timesteps, progress_bar=True)
         self.save(save_path)

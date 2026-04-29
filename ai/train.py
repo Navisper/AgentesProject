@@ -7,7 +7,7 @@ def main():
     agent = FlappyAgent(env)
 
     print("Starting training...")
-    agent.train(total_timesteps=900_000, save_path="ai/checkpoints/ppo_flappy")
+    agent.train(total_timesteps=5_000_000, save_path="ai/checkpoints/ppo_flappy")
 
     print("\nEvaluating...")
     avg_reward = agent.evaluate(episodes=5)

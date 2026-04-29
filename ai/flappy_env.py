@@ -35,7 +35,7 @@ class FlappyBirdEnv(gym.Env):
         self._bg_path = self._game_dir / "graphics" / "environment" / "background.png"
 
         # Obstacle spawning (time-based, no pygame events needed)
-        self._obstacle_interval = 0.6  # seconds between obstacle spawns
+        self._obstacle_interval = 1.4  # seconds between obstacle spawns
         self._next_obstacle_time = 0.0
         self._elapsed_time = 0.0
 
@@ -79,7 +79,7 @@ class FlappyBirdEnv(gym.Env):
         )
 
         # Tune obstacle speed for playability
-        Obstacle.speed = 320
+        Obstacle.speed = 400
 
         self._init_done = True
 
@@ -193,7 +193,7 @@ class FlappyBirdEnv(gym.Env):
         while self._elapsed_time >= self._next_obstacle_time:
             Obstacle(
                 [self.all_sprites, self.collision_sprites],
-                self.scale_factor * 1.1,
+                self.scale_factor * 0.85,
             )
             self._next_obstacle_time += self._obstacle_interval
 
